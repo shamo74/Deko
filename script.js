@@ -48,7 +48,7 @@ function validated(element){
     button.classList.remove("active");
   }else{
     readonlyInput.style.zIndex = "-1";
-    counter.style.color = "#333";
+    counter.style.color = "red";
   }
   readonlyInput.innerHTML = text; //replacing innerHTML of readonly div with textTag value
 }
