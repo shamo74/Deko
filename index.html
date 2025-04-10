@@ -1,44 +1,256 @@
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - youtube.com/codingnepal -->
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مرحبا</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض البث المباشر</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .stream-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        #video-player {
+            width: 100%;
+            display: block;
+        }
+        
+        .stream-placeholder {
+            width: 100%;
+            padding-bottom: 56.25%; /* نسبة 16:9 */
+            background-color: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .stream-info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .stream-info h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div class="input-box">
-      <div class="tweet-area">
-        <span class="placeholder">ماذا تحب يا عيني?</span>
-        <div class="input editable" contenteditable="true" spellcheck="false"></div>
-        <div class="input readonly" contenteditable="true" spellcheck="false"></div>
-      </div>
-      <div class="privacy">
-        <i class="fas fa-globe-asia"></i>
-        <span>شكرا لك
-       </span>
-      </div>
+    <div class="container">
+        <header>
+            <h1>عرض البث المباشر</h1>
+            <p>مشاهدة البث الحي من كاميرا المراقبة</p>
+        </header>
+        
+        <div class="stream-container">
+            <div class="stream-placeholder" id="stream-placeholder">
+                جاري تحميل البث المباشر...
+            </div>
+            <video id="video-player" controls style="display: none;"></video>
+        </div>
+        
+        <div class="controls">
+            <button id="play-btn">تشغيل البث</button>
+            <button id="pause-btn" disabled>إيقاف مؤقت</button>
+            <button id="fullscreen-btn">ملء الشاشة</button>
+        </div>
+        
+        <div class="stream-info">
+            <h2>معلومات البث</h2>
+            <p id="stream-status">حالة البث: غير نشط</p>
+            <p id="stream-title">عنوان البث: كاميرا المراقبة</p>
+            <p id="stream-description">وصف البث: بث مباشر من كاميرا RTSP</p>
+        </div>
+        
+        <footer>
+            <p>جميع الحقوق محفوظة &copy; <span id="year"></span></p>
+        </footer>
     </div>
-    <div class="bottom">
-      <ul class="icons">
-        <li><i class="uil uil-capture"></i></li>
-        <li><i class="far fa-file-image"></i></li>
-        <li><i class="fas fa-map-marker-alt"></i></li>
-        <li><i class="far fa-grin"></i></li>
-        <li><i class="far fa-user"></i></li>
-      </ul>
-      <div class="content">
-        <span class="counter">100</span>
-        <button>نشر</button>
-      </div>
-    </div>
-  </div>
 
-  <script src="script.js"></script>
-
+    <script src="https://raw.githubusercontent.com/shamo74/Deko/refs/heads/main/server.js@latest"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // تعيين سنة حقوق النشر
+            document.getElementById('year').textContent = new Date().getFullYear();
+            
+            // عناصر DOM
+            const videoPlayer = document.getElementById('video-player');
+            const streamPlaceholder = document.getElementById('stream-placeholder');
+            const playBtn = document.getElementById('play-btn');
+            const pauseBtn = document.getElementById('pause-btn');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const streamStatus = document.getElementById('stream-status');
+            
+            // تحقق من دعم HLS.js
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                // استبدل هذا الرابط برابط HLS الخاص بك بعد تحويل RTSP
+                hls.loadSource('http://localhost:8000/live/stream.m3u8');
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoPlayer.style.display = 'block';
+                    streamPlaceholder.style.display = 'none';
+                    playBtn.disabled = false;
+                });
+                
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    console.error('حدث خطأ في تحميل البث:', data);
+                    streamPlaceholder.style.display = 'flex';
+                    streamPlaceholder.textContent = 'حدث خطأ في تحميل البث المباشر';
+                    videoPlayer.style.display = 'none';
+                    streamStatus.textContent = 'حالة البث: خطأ في التحميل';
+                    playBtn.disabled = true;
+                    pauseBtn.disabled = true;
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                // دعم Safari
+                videoPlayer.src = 'http://localhost:8000/live/stream.m3u8';
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    videoPlayer.style.display = 'block';
+                    streamPlaceholder.style.display = 'none';
+                    playBtn.disabled = false;
+                });
+            } else {
+                streamPlaceholder.textContent = 'المتصفح لا يدعم تشغيل هذا النوع من البث';
+                playBtn.disabled = true;
+            }
+            
+            // أحداث الأزرار
+            playBtn.addEventListener('click', function() {
+                videoPlayer.play();
+                playBtn.disabled = true;
+                pauseBtn.disabled = false;
+                streamStatus.textContent = 'حالة البث: قيد التشغيل';
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                videoPlayer.pause();
+                pauseBtn.disabled = true;
+                playBtn.disabled = false;
+                streamStatus.textContent = 'حالة البث: متوقف مؤقتًا';
+            });
+            
+            fullscreenBtn.addEventListener('click', function() {
+                if (videoPlayer.requestFullscreen) {
+                    videoPlayer.requestFullscreen();
+                } else if (videoPlayer.webkitRequestFullscreen) {
+                    videoPlayer.webkitRequestFullscreen();
+                } else if (videoPlayer.msRequestFullscreen) {
+                    videoPlayer.msRequestFullscreen();
+                }
+            });
+            
+            // أحداث مشغل الفيديو
+            videoPlayer.addEventListener('playing', function() {
+                streamStatus.textContent = 'حالة البث: قيد التشغيل';
+            });
+            
+            videoPlayer.addEventListener('pause', function() {
+                streamStatus.textContent = 'حالة البث: متوقف مؤقتًا';
+            });
+            
+            videoPlayer.addEventListener('ended', function() {
+                streamStatus.textContent = 'حالة البث: انتهى';
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+            });
+        });
+    </script>
 </body>
 </html>
